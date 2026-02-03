@@ -474,29 +474,27 @@ void setup()
 
   // --- СНАЧАЛА LVGL ---
   lv_init();
-  lv_png_init();          // PNG-декодер
-  lv_fs_spiffs_init();    // регистрируем 'S:' драйвер ДЛЯ LVGL
+  lv_png_init();
+  lv_fs_spiffs_init();    // регистрируем 'S:' драйвер
 
   // --- буфер и дисплей LVGL ---
   lv_disp_draw_buf_init(&draw_buf, buf[0], buf[1], screenWidth * buf_size);
 
   static lv_disp_drv_t disp_drv;
   lv_disp_drv_init(&disp_drv);
-  disp_drv.hor_res = screenWidth;
-  disp_drv.ver_res = screenHeight;
+  disp_drv.hor_res  = screenWidth;
+  disp_drv.ver_res  = screenHeight;
   disp_drv.flush_cb = my_disp_flush;
   disp_drv.draw_buf = &draw_buf;
-  lv_disp_drv_register(&disp_drv);
+  lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
 
   static lv_indev_drv_t indev_drv;
   lv_indev_drv_init(&indev_drv);
-  indev_drv.type = LV_INDEV_TYPE_POINTER;
+  indev_drv.type    = LV_INDEV_TYPE_POINTER;
   indev_drv.read_cb = my_touchpad_read;
   lv_indev_drv_register(&indev_drv);
-  
-  ui_init();
 
-  // --- дальше как было: IO, tft, WiFi, проверка SPIFFS, ui_init() ---
+  // --- железо, TFT, WiFi ---
   init_IO_extender();
   delay(100);
   set_pin_io(3, true);
@@ -514,14 +512,14 @@ void setup()
   // --- проверка файлов SPIFFS ---
   File root = SPIFFS.open("/images");
   if (root && root.isDirectory()) {
-      File file = root.openNextFile();
-      Serial.println("\n=== Files in /images ===");
-      while (file) {
-          Serial.printf("  %s (%d bytes)\n", file.name(), file.size());
-          file = root.openNextFile();
-      }
+    File file = root.openNextFile();
+    Serial.println("\n=== Files in /images ===");
+    while (file) {
+      Serial.printf("  %s (%d bytes)\n", file.name(), file.size());
+      file = root.openNextFile();
+    }
   } else {
-      Serial.println("ERROR: /images directory not found!");
+    Serial.println("ERROR: /images directory not found!");
   }
 
   File f = SPIFFS.open("/images/fan.png", "r");
@@ -530,14 +528,12 @@ void setup()
     uint8_t b[16];
     int n = f.read(b, sizeof(b));
     Serial.print("fan.png first bytes: ");
-    for (int i = 0; i < n; i++) {
-      Serial.printf("%02X ", b[i]);
-    }
+    for (int i = 0; i < n; i++) Serial.printf("%02X ", b[i]);
     Serial.println();
     f.close();
   }
 
-  // --- UI от SquareLine (ОДИН раз!) ---
+  // --- UI от SquareLine (ОДИН раз, В САМ КОНЕЦ!) ---
   ui_init();
   Serial.println("LVGL initialized with SquareLine UI");
 
