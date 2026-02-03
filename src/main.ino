@@ -86,6 +86,23 @@ static const uint32_t screenHeight = 240;
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[2][screenWidth * buf_size];
 
+static lv_indev_t * indev_touch;
+
+bool touch_driver_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data) {
+    uint16_t tx, ty;
+    bool touched = tft.getTouch(&tx, &ty);   // <= именно так
+
+    if (touched) {
+        data->state = LV_INDEV_STATE_PRESSED;
+        data->point.x = tx;
+        data->point.y = ty;
+    } else {
+        data->state = LV_INDEV_STATE_RELEASED;
+    }
+    return false;
+}
+
+
 // ======================= СТРУКТУРА СОСТОЯНИЯ ====================
 
 struct VentState {
@@ -373,62 +390,62 @@ void handle_screen_swipe(lv_dir_t dir) {
 
 // ======================= SETUP ===================================
 
-void setup()
-{
-  Serial.begin(115200);
-  delay(1000);
-  Serial.println("\n\n=== SquareLine LVGL Ventilation Controller v3.1 ===\n");
+void setup() {
+    Serial.begin(115200);
+    delay(1000);
+    Serial.println("\n\n=== SquareLine LVGL Ventilation Controller v3.1 ===\n");
 
-  Wire.begin(I2C_SDA, I2C_SCL);
+    Wire.begin(I2C_SDA, I2C_SCL);
 
-  // --- СНАЧАЛА LVGL ---
-  lv_init();
-  lv_png_init();
+    // --- СНАЧАЛА LVGL ---
+    lv_init();
+    lv_png_init();
 
-  // --- буфер и дисплей LVGL ---
-  lv_disp_draw_buf_init(&draw_buf, buf[0], buf[1], screenWidth * buf_size);
+    // --- буфер и дисплей LVGL ---
+    lv_disp_draw_buf_init(&draw_buf, buf[0], buf[1], screenWidth * buf_size);
 
-  static lv_disp_drv_t disp_drv;
-  lv_disp_drv_init(&disp_drv);
-  disp_drv.hor_res  = screenWidth;
-  disp_drv.ver_res  = screenHeight;
-  disp_drv.flush_cb = my_disp_flush;
-  disp_drv.draw_buf = &draw_buf;
-  lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
+    static lv_disp_drv_t disp_drv;
+    lv_disp_drv_init(&disp_drv);
+    disp_drv.hor_res  = screenWidth;
+    disp_drv.ver_res  = screenHeight;
+    disp_drv.flush_cb = my_disp_flush;
+    disp_drv.draw_buf = &draw_buf;
+    lv_disp_t * disp  = lv_disp_drv_register(&disp_drv);
 
-  static lv_indev_drv_t indev_drv;
-  lv_indev_drv_init(&indev_drv);
-  indev_drv.type    = LV_INDEV_TYPE_POINTER;
-  indev_drv.read_cb = my_touchpad_read;
-  lv_indev_drv_register(&indev_drv);
+    // --- ТАЧ КАК LVGL INPUT ---
+    static lv_indev_drv_t indev_drv_touch;
+    lv_indev_drv_init(&indev_drv_touch);
+    indev_drv_touch.type    = LV_INDEV_TYPE_POINTER;
+    indev_drv_touch.read_cb = my_touchpad_read;   // сюда потом подставишь настоящий touch_driver_read
+    lv_indev_t * indev_touch = lv_indev_drv_register(&indev_drv_touch);
 
-  // --- железо, TFT, WiFi ---
-  init_IO_extender();
-  delay(100);
-  set_pin_io(3, true);
-  set_pin_io(4, true);
-  set_pin_io(2, true);
+    // --- железо, TFT, WiFi ---
+    init_IO_extender();
+    delay(100);
+    set_pin_io(3, true);
+    set_pin_io(4, true);
+    set_pin_io(2, true);
 
-  tft.init();
-  tft.initDMA();
-  tft.startWrite();
-  tft.fillScreen(TFT_BLACK);
-  delay(200);
+    tft.init();
+    tft.initDMA();
+    tft.startWrite();
+    tft.fillScreen(TFT_BLACK);
+    delay(200);
 
-  connectWiFi();
+    connectWiFi();
 
-  // --- UI от SquareLine (ОДИН раз, В САМ КОНЕЦ!) ---
-  ui_init();
-  Serial.println("LVGL initialized with SquareLine UI");
+    // --- UI от SquareLine (ОДИН раз, В САМ КОНЕЦ!) ---
+    ui_init();
+    Serial.println("LVGL initialized with SquareLine UI");
 
-  if (wifiConnected) {
-    fetchVentState();
-    update_main_screen_labels();
-    update_time_slider_value();
-    update_humid_slider_value();
-  }
+    if (wifiConnected) {
+        fetchVentState();
+        update_main_screen_labels();
+        update_time_slider_value();
+        update_humid_slider_value();
+    }
 
-  Serial.println("Setup complete!\n");
+    Serial.println("Setup complete!\n");
 }
 
 // ======================= LOOP ====================================
