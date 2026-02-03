@@ -4,6 +4,8 @@
 // Project name: SquareLine_Project
 
 #include "../ui.h"
+#include "images.h"
+
 extern lv_img_dsc_t *fan_dsc;
 
 lv_obj_t *ui_Screen1 = NULL;lv_obj_t *ui_ImageFan = NULL;lv_obj_t *ui_ContainerTemp = NULL;lv_obj_t *ui_Image2 = NULL;lv_obj_t *ui_LabelTemp = NULL;lv_obj_t *ui_LabelTempValue = NULL;lv_obj_t *ui_ContainerHumid = NULL;lv_obj_t *ui_Image1 = NULL;lv_obj_t *ui_LabelHumid = NULL;lv_obj_t *ui_LabelHumidValue = NULL;lv_obj_t *ui_ContainerMode = NULL;lv_obj_t *ui_Panel1 = NULL;lv_obj_t *ui_LabelModeValue = NULL;
@@ -19,7 +21,7 @@ lv_obj_clear_flag( ui_Screen1, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 
 ui_ImageFan = lv_img_create(ui_Screen1);
 if (fan_dsc) lv_img_set_src(ui_ImageFan, fan_dsc);
-lv_img_set_src(ui_ImageFan, "S:/images/fan.png");
+lv_img_set_src(ui_ImageFan, &fan);
 lv_obj_set_width( ui_ImageFan, LV_SIZE_CONTENT);  /// 512
 lv_obj_set_height( ui_ImageFan, LV_SIZE_CONTENT);   /// 512
 lv_obj_set_align( ui_ImageFan, LV_ALIGN_CENTER );
@@ -39,7 +41,7 @@ lv_obj_set_align( ui_ContainerTemp, LV_ALIGN_CENTER );
 lv_obj_clear_flag( ui_ContainerTemp, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 
 ui_Image2 = lv_img_create(ui_ContainerTemp);
-lv_img_set_src(ui_Image2, "S:/images/temperature.png");
+lv_img_set_src(ui_Image2, &temperature);
 lv_obj_set_width( ui_Image2, LV_SIZE_CONTENT);  /// 512
 lv_obj_set_height( ui_Image2, LV_SIZE_CONTENT);   /// 512
 lv_obj_set_x( ui_Image2, -80 );
@@ -77,7 +79,7 @@ lv_obj_set_align( ui_ContainerHumid, LV_ALIGN_CENTER );
 lv_obj_clear_flag( ui_ContainerHumid, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 
 ui_Image1 = lv_img_create(ui_ContainerHumid);
-lv_img_set_src(ui_Image1, "S:/images/humidity.png");
+lv_img_set_src(ui_Image1, &humidity);
 lv_obj_set_width( ui_Image1, LV_SIZE_CONTENT);  /// 512
 lv_obj_set_height( ui_Image1, LV_SIZE_CONTENT);   /// 512
 lv_obj_set_x( ui_Image1, -80 );
