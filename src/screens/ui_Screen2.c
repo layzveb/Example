@@ -4,6 +4,7 @@
 // Project name: SquareLine_Project
 
 #include "../ui.h"
+#include "../ui_events.h"
 
 lv_obj_t *ui_Screen2 = NULL;lv_obj_t *ui_ArcTime = NULL;lv_obj_t *ui_LabelSetTime = NULL;lv_obj_t *ui_LabelSetTimeValue = NULL;
 // event funtions
@@ -14,6 +15,9 @@ void ui_Screen2_screen_init(void)
 {
 ui_Screen2 = lv_obj_create(NULL);
 lv_obj_clear_flag( ui_Screen2, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
+
+lv_obj_add_event_cb(ui_Screen2, ui_Screen2_event_handler, LV_EVENT_ALL, NULL);
+lv_obj_add_flag(ui_Screen2, LV_OBJ_FLAG_GESTURE_BUBBLE);
 
 ui_ArcTime = lv_arc_create(ui_Screen2);
 lv_obj_set_width( ui_ArcTime, 220);

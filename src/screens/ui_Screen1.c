@@ -5,6 +5,7 @@
 
 #include "../ui.h"
 #include "../images/images.h"
+#include "../ui_events.h"
 
 extern lv_img_dsc_t *fan_dsc;
 
@@ -19,6 +20,9 @@ void ui_Screen1_screen_init(void)
 ui_Screen1 = lv_obj_create(NULL);
 lv_obj_clear_flag( ui_Screen1, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 
+lv_obj_add_event_cb(ui_Screen1, ui_Screen1_event_handler, LV_EVENT_ALL, NULL);
+lv_obj_add_flag(ui_Screen1, LV_OBJ_FLAG_GESTURE_BUBBLE);
+
 ui_ImageFan = lv_img_create(ui_Screen1);
 if (fan_dsc) lv_img_set_src(ui_ImageFan, fan_dsc);
 lv_img_set_src(ui_ImageFan, &fan);
@@ -27,7 +31,7 @@ lv_obj_set_height( ui_ImageFan, LV_SIZE_CONTENT);   /// 512
 lv_obj_set_align( ui_ImageFan, LV_ALIGN_CENTER );
 lv_obj_clear_flag( ui_ImageFan, LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN );    /// Flags
 lv_img_set_angle(ui_ImageFan,9);
-lv_img_set_zoom(ui_ImageFan,250);
+lv_img_set_zoom(ui_ImageFan,400);
 lv_obj_set_style_img_recolor(ui_ImageFan, lv_color_hex(0x000000), LV_PART_MAIN| LV_STATE_DEFAULT);
 lv_obj_set_style_img_recolor_opa(ui_ImageFan, 150, LV_PART_MAIN| LV_STATE_DEFAULT);
 
@@ -49,7 +53,7 @@ lv_obj_set_y( ui_Image2, lv_pct(4) );
 lv_obj_set_align( ui_Image2, LV_ALIGN_CENTER );
 lv_obj_add_flag( ui_Image2, LV_OBJ_FLAG_ADV_HITTEST );   /// Flags
 lv_obj_clear_flag( ui_Image2, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
-lv_img_set_zoom(ui_Image2,300);
+lv_img_set_zoom(ui_Image2,200);
 
 ui_LabelTemp = lv_label_create(ui_ContainerTemp);
 lv_obj_set_width( ui_LabelTemp, LV_SIZE_CONTENT);  /// 1
