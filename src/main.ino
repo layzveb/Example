@@ -6,7 +6,6 @@
 #include <LovyanGFX.hpp>
 #include <Wire.h>
 #include "ff.h"
-#include <SPIFFS.h>
 
 // ==================== ЭКСПОРТ SquareLine ====================
 // Подключаем экспортированные UI файлы
@@ -380,64 +379,6 @@ void handle_screen_swipe(lv_dir_t dir) {
   }
 }
 
-// ======================= FS-драйвер SPIFFS для LVGL =======================
-
-// static void * spiffs_open(lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode) {
-//   (void) drv;
-
-//   char full[64];
-//   snprintf(full, sizeof(full), "/%s", path);   // "images/fan.png" -> "/images/fan.png"
-
-//   File f;
-//   if (mode == LV_FS_MODE_WR) f = SPIFFS.open(full, FILE_WRITE);
-//   else                       f = SPIFFS.open(full, FILE_READ);
-
-//   if (!f) {
-//     Serial.printf("spiffs_open failed: %s\n", full);
-//     return NULL;
-//   }
-
-//   File *fp = new File(f);
-//   return fp;
-// }
-
-// static lv_fs_res_t spiffs_close(lv_fs_drv_t *drv, void *file_p) {
-//   (void) drv;
-//   if (!file_p) return LV_FS_RES_INV_PARAM;
-//   File *fp = (File *)file_p;
-//   fp->close();
-//   delete fp;
-//   return LV_FS_RES_OK;
-// }
-
-// static lv_fs_res_t spiffs_read(lv_fs_drv_t *drv, void *file_p, void *buf, uint32_t btr, uint32_t *br) {
-//   (void) drv;
-//   if (!file_p) return LV_FS_RES_INV_PARAM;
-//   File *fp = (File *)file_p;
-//   size_t r = fp->read((uint8_t *)buf, btr);
-//   if (br) *br = r;
-//   return LV_FS_RES_OK;
-// }
-
-// static lv_fs_res_t spiffs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_whence_t whence) {
-//   (void) drv;
-//   if (!file_p) return LV_FS_RES_INV_PARAM;
-//   File *fp = (File *)file_p;
-//   SeekMode mode = SeekSet;
-//   if (whence == LV_FS_SEEK_CUR) mode = SeekCur;
-//   else if (whence == LV_FS_SEEK_END) mode = SeekEnd;
-//   fp->seek(pos, mode);
-//   return LV_FS_RES_OK;
-// }
-
-// static lv_fs_res_t spiffs_tell(lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p) {
-//   (void) drv;
-//   if (!file_p || !pos_p) return LV_FS_RES_INV_PARAM;
-//   File *fp = (File *)file_p;
-//   *pos_p = fp->position();
-//   return LV_FS_RES_OK;
-// }
-
 // ======================= SETUP ===================================
 
 void setup()
@@ -448,32 +389,9 @@ void setup()
 
   Wire.begin(I2C_SDA, I2C_SCL);
 
-  // --- SPIFFS один раз ---
-  if (!SPIFFS.begin(true)) {
-    Serial.println("SPIFFS Mount Failed");
-  } else {
-    Serial.printf("SPIFFS total: %d, used: %d\n",
-                  SPIFFS.totalBytes(), SPIFFS.usedBytes());
-  }
-
   // --- СНАЧАЛА LVGL ---
   lv_init();
   lv_png_init();
-  // {
-  //   lv_fs_drv_t drv;
-  //   lv_fs_drv_init(&drv);
-  //   drv.letter      = 'S';
-  //   drv.open_cb     = spiffs_open;
-  //   drv.close_cb    = spiffs_close;
-  //   drv.read_cb     = spiffs_read;
-  //   drv.seek_cb     = spiffs_seek;
-  //   drv.tell_cb     = spiffs_tell;
-  //   drv.dir_open_cb = NULL;
-  //   drv.dir_read_cb = NULL;
-  //   drv.dir_close_cb= NULL;
-  //   lv_fs_drv_register(&drv);
-  //   Serial.println("FS driver 'S' registered (inline)");
-  // }
 
   // --- буфер и дисплей LVGL ---
   lv_disp_draw_buf_init(&draw_buf, buf[0], buf[1], screenWidth * buf_size);
@@ -506,30 +424,6 @@ void setup()
   delay(200);
 
   connectWiFi();
-
-  // --- проверка файлов SPIFFS ---
-  File root = SPIFFS.open("/images");
-  if (root && root.isDirectory()) {
-    File file = root.openNextFile();
-    Serial.println("\n=== Files in /images ===");
-    while (file) {
-      Serial.printf("  %s (%d bytes)\n", file.name(), file.size());
-      file = root.openNextFile();
-    }
-  } else {
-    Serial.println("ERROR: /images directory not found!");
-  }
-
-  File f = SPIFFS.open("/images/fan.png", "r");
-  if (f) {
-    Serial.printf("fan.png size: %d\n", f.size());
-    uint8_t b[16];
-    int n = f.read(b, sizeof(b));
-    Serial.print("fan.png first bytes: ");
-    for (int i = 0; i < n; i++) Serial.printf("%02X ", b[i]);
-    Serial.println();
-    f.close();
-  }
 
   // --- UI от SquareLine (ОДИН раз, В САМ КОНЕЦ!) ---
   ui_init();

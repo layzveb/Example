@@ -27,7 +27,7 @@ lv_obj_set_height( ui_ImageFan, LV_SIZE_CONTENT);   /// 512
 lv_obj_set_align( ui_ImageFan, LV_ALIGN_CENTER );
 lv_obj_clear_flag( ui_ImageFan, LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN );    /// Flags
 lv_img_set_angle(ui_ImageFan,9);
-lv_img_set_zoom(ui_ImageFan,140);
+lv_img_set_zoom(ui_ImageFan,250);
 lv_obj_set_style_img_recolor(ui_ImageFan, lv_color_hex(0x000000), LV_PART_MAIN| LV_STATE_DEFAULT);
 lv_obj_set_style_img_recolor_opa(ui_ImageFan, 150, LV_PART_MAIN| LV_STATE_DEFAULT);
 
@@ -49,7 +49,7 @@ lv_obj_set_y( ui_Image2, lv_pct(4) );
 lv_obj_set_align( ui_Image2, LV_ALIGN_CENTER );
 lv_obj_add_flag( ui_Image2, LV_OBJ_FLAG_ADV_HITTEST );   /// Flags
 lv_obj_clear_flag( ui_Image2, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
-lv_img_set_zoom(ui_Image2,30);
+lv_img_set_zoom(ui_Image2,300);
 
 ui_LabelTemp = lv_label_create(ui_ContainerTemp);
 lv_obj_set_width( ui_LabelTemp, LV_SIZE_CONTENT);  /// 1
@@ -87,7 +87,7 @@ lv_obj_set_y( ui_Image1, lv_pct(4) );
 lv_obj_set_align( ui_Image1, LV_ALIGN_CENTER );
 lv_obj_add_flag( ui_Image1, LV_OBJ_FLAG_ADV_HITTEST );   /// Flags
 lv_obj_clear_flag( ui_Image1, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
-lv_img_set_zoom(ui_Image1,30);
+lv_img_set_zoom(ui_Image1,200);
 
 ui_LabelHumid = lv_label_create(ui_ContainerHumid);
 lv_obj_set_width( ui_LabelHumid, LV_SIZE_CONTENT);  /// 1
@@ -134,7 +134,7 @@ ui_LabelModeValue = lv_label_create(ui_ContainerMode);
 lv_obj_set_width( ui_LabelModeValue, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_LabelModeValue, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_align( ui_LabelModeValue, LV_ALIGN_CENTER );
-lv_label_set_text(ui_LabelModeValue,"ручной");
+lv_label_set_text(ui_LabelModeValue,"--");
 lv_obj_set_style_text_font(ui_LabelModeValue, &ui_font_FontBold16, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 }
