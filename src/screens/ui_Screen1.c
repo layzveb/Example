@@ -4,7 +4,7 @@
 // Project name: SquareLine_Project
 
 #include "../ui.h"
-#include "images.h"
+#include "../images/images.h"
 
 extern lv_img_dsc_t *fan_dsc;
 
