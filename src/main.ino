@@ -86,14 +86,6 @@ static const uint32_t screenHeight = 240;
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[2][screenWidth * buf_size];
 
-// ======================= URL КАРТИНОК С ЛОКАЛЬНОГО СЕРВЕРА =======================
-
-const char* URL_FAN         = "http://192.168.1.90/images/fan.png";
-const char* URL_ARROW       = "http://192.168.1.90/images/arrow.png";
-const char* URL_HUMIDITY    = "http://192.168.1.90/images/humidity.png";
-const char* URL_TEMPERATURE = "http://192.168.1.90/images/temperature.png";
-const char* URL_QRCODE_IP   = "http://192.168.1.90/images/QR-code.png";
-
 // ======================= СТРУКТУРА СОСТОЯНИЯ ====================
 
 struct VentState {

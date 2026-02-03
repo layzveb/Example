@@ -4,6 +4,7 @@
 // Project name: SquareLine_Project
 
 #include "../ui.h"
+#include "../images/images.h"
 
 lv_obj_t *ui_Screen4 = NULL;lv_obj_t *ui_Image3 = NULL;lv_obj_t *ui_Image4 = NULL;lv_obj_t *ui_Image5 = NULL;lv_obj_t *ui_Image6 = NULL;lv_obj_t *ui_Image7 = NULL;lv_obj_t *ui_Image8 = NULL;lv_obj_t *ui_Image9 = NULL;lv_obj_t *ui_Image10 = NULL;lv_obj_t *ui_Image11 = NULL;
 // event funtions
@@ -16,7 +17,7 @@ ui_Screen4 = lv_obj_create(NULL);
 lv_obj_clear_flag( ui_Screen4, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 
 ui_Image3 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image3, "S:/images/QR-code_IP.png");
+lv_img_set_src(ui_Image3, &QRcode_IP);
 lv_obj_set_width( ui_Image3, LV_SIZE_CONTENT);  /// 240
 lv_obj_set_height( ui_Image3, LV_SIZE_CONTENT);   /// 240
 lv_obj_set_align( ui_Image3, LV_ALIGN_CENTER );
@@ -25,7 +26,7 @@ lv_obj_clear_flag( ui_Image3, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
 lv_img_set_zoom(ui_Image3,160);
 
 ui_Image4 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image4, "S:/images/arrow.png");
+lv_img_set_src(ui_Image4, &arrow);
 lv_obj_set_width( ui_Image4, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_Image4, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Image4, -100 );
@@ -37,7 +38,7 @@ lv_img_set_angle(ui_Image4,1800);
 lv_img_set_zoom(ui_Image4,20);
 
 ui_Image5 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image5, "S:/images/arrow.png");
+lv_img_set_src(ui_Image5, &arrow);
 lv_obj_set_width( ui_Image5, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_Image5, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Image5, 100 );
@@ -50,7 +51,7 @@ lv_obj_set_style_img_recolor(ui_Image5, lv_color_hex(0x000000), LV_PART_MAIN| LV
 lv_obj_set_style_img_recolor_opa(ui_Image5, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 ui_Image6 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image6, "S:/images/arrow.png");
+lv_img_set_src(ui_Image6, &arrow);
 lv_obj_set_width( ui_Image6, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_Image6, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Image6, 0 );
@@ -64,7 +65,7 @@ lv_obj_set_style_img_recolor(ui_Image6, lv_color_hex(0x000000), LV_PART_MAIN| LV
 lv_obj_set_style_img_recolor_opa(ui_Image6, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 ui_Image7 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image7, "S:/images/arrow.png");
+lv_img_set_src(ui_Image7, &arrow);
 lv_obj_set_width( ui_Image7, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_Image7, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Image7, 0 );
@@ -76,7 +77,7 @@ lv_img_set_angle(ui_Image7,2700);
 lv_img_set_zoom(ui_Image7,20);
 
 ui_Image8 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image8, "S:/images/arrow.png");
+lv_img_set_src(ui_Image8, &arrow);
 lv_obj_set_width( ui_Image8, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_Image8, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Image8, -100 );
@@ -89,7 +90,7 @@ lv_obj_set_style_img_recolor(ui_Image8, lv_color_hex(0x000000), LV_PART_MAIN| LV
 lv_obj_set_style_img_recolor_opa(ui_Image8, 100, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 ui_Image9 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image9, "S:/images/arrow.png");
+lv_img_set_src(ui_Image9, &arrow);
 lv_obj_set_width( ui_Image9, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_Image9, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Image9, 100 );
@@ -103,7 +104,7 @@ lv_obj_set_style_img_recolor(ui_Image9, lv_color_hex(0x000000), LV_PART_MAIN| LV
 lv_obj_set_style_img_recolor_opa(ui_Image9, 100, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 ui_Image10 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image10, "S:/images/arrow.png");
+lv_img_set_src(ui_Image10, &arrow);
 lv_obj_set_width( ui_Image10, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_Image10, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Image10, 0 );
@@ -117,7 +118,7 @@ lv_obj_set_style_img_recolor(ui_Image10, lv_color_hex(0x000000), LV_PART_MAIN| L
 lv_obj_set_style_img_recolor_opa(ui_Image10, 100, LV_PART_MAIN| LV_STATE_DEFAULT);
 
 ui_Image11 = lv_img_create(ui_Screen4);
-lv_img_set_src(ui_Image11, "S:/images/arrow.png");
+lv_img_set_src(ui_Image11, &arrow);
 lv_obj_set_width( ui_Image11, LV_SIZE_CONTENT);  /// 1
 lv_obj_set_height( ui_Image11, LV_SIZE_CONTENT);   /// 1
 lv_obj_set_x( ui_Image11, 0 );

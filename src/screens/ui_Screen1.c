@@ -162,6 +162,7 @@ ui_LabelModeValue= NULL;
 
 void ui_Screen1_screen_relocalize(void)
 {
+   lv_obj_add_event_cb(ui_Screen1, ui_Screen1_event_handler, LV_EVENT_ALL, NULL);
 // label widgets on screen
 
 }
