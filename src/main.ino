@@ -438,22 +438,6 @@ static lv_fs_res_t spiffs_tell(lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p) 
   return LV_FS_RES_OK;
 }
 
-void lv_fs_spiffs_init(void) {
-  lv_fs_drv_t drv;
-  lv_fs_drv_init(&drv);
-  drv.letter      = 'S';
-  drv.open_cb     = spiffs_open;
-  drv.close_cb    = spiffs_close;
-  drv.read_cb     = spiffs_read;
-  drv.seek_cb     = spiffs_seek;
-  drv.tell_cb     = spiffs_tell;
-  drv.dir_open_cb = NULL;
-  drv.dir_read_cb = NULL;
-  drv.dir_close_cb= NULL;
-  lv_fs_drv_register(&drv);
-  Serial.println("lv_fs_spiffs_init: FS driver 'S' registered");
-}
-
 // ======================= SETUP ===================================
 
 void setup()
@@ -475,7 +459,21 @@ void setup()
   // --- СНАЧАЛА LVGL ---
   lv_init();
   lv_png_init();
-  lv_fs_spiffs_init();    // регистрируем 'S:' драйвер
+  {
+    lv_fs_drv_t drv;
+    lv_fs_drv_init(&drv);
+    drv.letter      = 'S';
+    drv.open_cb     = spiffs_open;
+    drv.close_cb    = spiffs_close;
+    drv.read_cb     = spiffs_read;
+    drv.seek_cb     = spiffs_seek;
+    drv.tell_cb     = spiffs_tell;
+    drv.dir_open_cb = NULL;
+    drv.dir_read_cb = NULL;
+    drv.dir_close_cb= NULL;
+    lv_fs_drv_register(&drv);
+    Serial.println("FS driver 'S' registered (inline)");
+  }
 
   // --- буфер и дисплей LVGL ---
   lv_disp_draw_buf_init(&draw_buf, buf[0], buf[1], screenWidth * buf_size);
